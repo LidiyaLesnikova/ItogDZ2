@@ -51,4 +51,4 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-.Notes_Python/MVP/__pycache__/
+Notes_Python/MVP/__pycache__/
