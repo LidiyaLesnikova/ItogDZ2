@@ -8,26 +8,26 @@ class Console:
         self.presenter = Presenter(notelist_file)
 
     def menu(self):
-        print('Введите действие:\n',
-            '1 - просмотреть все заметки в записной книжке \n',
-            '2 - добавить новую заметку \n',
-            '3 - найти заметку в записной книжке \n',
-            '4 - редактировать заметку в записной книжке \n',
-            '5 - удалить заметку из записной книжки \n',
-            '===================================== \n',
-            '6 - закончить работу с записной книжкой \n')
-
-        while True:
+         while True:
+            print('\n',
+                '1 - просмотреть все заметки в записной книжке \n',
+                '2 - добавить новую заметку \n',
+                '3 - найти заметку в записной книжке \n',
+                '4 - редактировать заметку в записной книжке \n',
+                '5 - удалить заметку из записной книжки \n',
+                '===================================== \n',
+                '6 - закончить работу с записной книжкой')
             try:
-                anser = int(input('Ввод действия с записной книжкой: '))
-                match anser:
+                choice = int(input('Введите действие с записной книжкой: '))
+                match choice:
                     case 1: # просмотр записной книжки
                         print(*self.presenter.viewNotes())
                     case 2: # добавить заметку
                         heading, text_note, time_change = self.InsertNote()
                         print(self.presenter.insertNote(heading, text_note, time_change))
                     case 3: # найти заметку
-                        print(self.presenter.searchNote())
+                        searchNote = input('Введите строку поиска в записной книжке: ')
+                        print(*self.presenter.searchNote(searchNote))
                     case 4: # редактировать заметку
                         try:
                             modifyLine = int(input('Введите ID, который надо изменить: '))

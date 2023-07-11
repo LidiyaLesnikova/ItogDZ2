@@ -12,8 +12,8 @@ class Presenter:
     def insertNote(self, heading, text_note, time_change):
         return self.model.insertNote(heading, text_note, time_change)
     
-    def searchNote(self):
-        return self.model.searchNote()
+    def searchNote(self, searchNote):
+        return self.model.searchNote(searchNote)
     
     def modifyNote(self, modifyLine: int, mode = 0):
         return self.model.modifyNote(modifyLine, mode)

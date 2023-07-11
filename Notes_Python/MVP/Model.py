@@ -18,7 +18,7 @@ class Model:
 
     def viewNotes(self) -> str:
         notelist = self.notelist.getNotesList()
-        return "Записная книжка пустая" if len(notelist)==0 else notelist
+        return ["Записная книжка пустая"] if len(notelist)==0 else notelist
     
     def insertNote(self, heading, text_note, time_change) -> str:
         try:
@@ -30,8 +30,14 @@ class Model:
             rez = "Ошибка, не удалось сохранить заметку"
         return rez
     
-    def searchNote(self) -> str:
-        return ""
+    def searchNote(self, searchNote: str) -> str:
+        rez = []
+        for i in self.notelist.getNotesList():
+            if searchNote.upper() in i.__repr__().upper():
+                rez.append(i)
+        if len(rez)==0:
+            rez.append('Запись не найдена')
+        return rez
     
     def modifyNote(self, modifyLine: int, mode = 0) -> str:
         return ""
