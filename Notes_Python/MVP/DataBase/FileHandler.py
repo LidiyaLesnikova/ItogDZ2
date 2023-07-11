@@ -1,3 +1,5 @@
+import os
+
 class FileHandler:
     notelist_file: str
 
@@ -17,6 +19,12 @@ class FileHandler:
                 data.writelines('id;heading;text_note;time_change\n')
         return dataBase
 
-    def save(self, note: str):
+    def add_data(self, note: str):
         with open(self.notelist_file, 'a', encoding="utf-8") as data:
             data.writelines(note)
+
+    def remove(self):
+        if os.path.isfile(self.notelist_file): 
+            os.remove(self.notelist_file) 
+        self.read()
+ 

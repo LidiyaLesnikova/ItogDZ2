@@ -12,8 +12,8 @@ class NotesList:
     def append_note(self, note: Note) -> None:
         self.notes_list.append(note)
 
-    def reverse_note(self, note: Note) -> None:
-        self.notes_list.reverse(note)
+    def remove_note(self, note: Note) -> None:
+        self.notes_list.remove(note)
 
     def select_all_note(self) -> str:
         output: str = ""

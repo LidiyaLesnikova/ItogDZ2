@@ -35,13 +35,13 @@ class Console:
                         except:
                             print("Такой записи не существует")                
                     case 5: # удалить заметку
-                        try:
-                            deleteLine = int(input('Введите ID, который надо удалить: '))
+                        #try:
+                            deleteLine = int(input('Введите номер заметки, которую надо удалить: '))
                             print(self.presenter.modifyNote(deleteLine, 1))
-                        except:
-                            print("Такой заметки не существует")
+                        #except:
+                        #    print("Такой заметки не существует")
                     case 6: # выход
-                        print('До свидания')
+                        print('\nДо свидания')
                         break
                     case _:
                         print('ошибка ввода данных, введите число от 1 до 6')
