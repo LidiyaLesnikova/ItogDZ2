@@ -21,7 +21,7 @@ class View:
                 choice = int(input('Введите действие с записной книжкой: '))
                 match choice:
                     case 1: # просмотр записной книжки
-                        print(*self.presenter.viewNotes())
+                        print(*self.presenter.filterNote(-1,None))
                     case 2: # добавить заметку
                         heading, text_note = self.insertNote()
                         print(self.presenter.insertNote(heading, text_note))
@@ -40,8 +40,9 @@ class View:
                         removeLine = int(input('Введите номер заметки, которую надо удалить: '))
                         print(self.presenter.removeNote(removeLine))
                     case 6: # выбрать заметки за дату
-                        dataFilter = int(input('Введите за какую дату нужны заметки: '))
-                    case 0: # выход
+                        dataFilter = self.insertData()
+                        print(*self.presenter.filterNote(-1, dataFilter))
+                    case 0: # выход00
                         print('\nДо свидания')
                         break
                     case _:
@@ -60,3 +61,20 @@ class View:
         newHeading = input('Изменить заголовок ('+old_note[0].getHeading()+'): ')
         newText_note = input('Изменить текст заметки ('+old_note[0].getText()+'): ')
         return newHeading, newText_note
+    
+    def insertData(self):
+        while True:
+            try:
+                print('Введите за какую дату нужны заметки:')
+                dayFilter = monthFilter = yearFilter = 0
+                while (dayFilter<1 or dayFilter>31):
+                    dayFilter = int(input('день (1-31): '))
+                while (monthFilter<1 or monthFilter>12):
+                    monthFilter = int(input('месяц (1-12): '))
+                while (yearFilter<1000 or yearFilter>9999):
+                    yearFilter = int(input('год (xxxx): '))
+                dataFilter = self.presenter.getDateFilter(yearFilter, monthFilter, dayFilter)
+                break
+            except:
+                print('ошибка ввода данных, введите заново')
+        return dataFilter

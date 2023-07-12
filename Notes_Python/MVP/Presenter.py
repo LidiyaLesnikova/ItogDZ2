@@ -5,10 +5,7 @@ class Presenter:
 
     def __init__(self, notelist_file) -> None:
         self.model = Model(notelist_file)
-
-    def viewNotes(self):
-        return self.model.viewNotes()
-    
+  
     def insertNote(self, heading, text_note):
         return self.model.insertNote(heading, text_note)
     
@@ -23,3 +20,6 @@ class Presenter:
     
     def filterNote(self, modifyLine=-1, dataNote = None):
         return self.model.filterNote(modifyLine, dataNote)
+    
+    def getDateFilter(self, yearFilter, monthFilter, dayFilter):
+        return self.model.getDateFilter(yearFilter, monthFilter, dayFilter)

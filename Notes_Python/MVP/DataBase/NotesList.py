@@ -19,4 +19,4 @@ class NotesList:
         self.notes_list.remove(note)
     
     def filter_note(self, numberNote, dataNote):
-        return [x for x in self.notes_list if (x.id==numberNote and numberNote!=-1) or (dataNote!=None and x.time_change==dataNote)]
+        return [x for x in self.notes_list if (x.id==numberNote and numberNote!=-1) or (dataNote!=None and x.time_change.date()==dataNote.date()) or (numberNote==-1 and dataNote==None)]

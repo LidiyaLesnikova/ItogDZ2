@@ -16,13 +16,12 @@ class Model:
             str = i.replace('\n','').split(';')
             self.notelist.append_note(Note(int(str[0]), str[1], str[2], datetime.strptime(str[3],'%Y-%m-%d %H:%M:%S')))
 
-    def viewNotes(self) -> str:
-        notelist = self.notelist.getNotesList()
-        return ["Записная книжка пустая"] if len(notelist)==0 else notelist
-    
     def filterNote(self, numberNote: int, dataNote: datetime):
-        note = self.notelist.filter_note(numberNote, dataNote)
-        return note
+        notelist = self.notelist.filter_note(numberNote, dataNote)
+        return ["Заметок нет"] if len(notelist)==0 else notelist
+
+    def getDateFilter(self, yearFilter: int, monthFilter: int, dayFilter: int):
+        return datetime(yearFilter, monthFilter, dayFilter)
 
     def insertNote(self, heading, text_note) -> str:
         try:
