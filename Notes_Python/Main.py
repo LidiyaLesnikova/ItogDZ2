@@ -1,5 +1,5 @@
-from MVP.Console import Console
+from MVP.View import View
 
 notelist_file = './Notes_Python/MVP/DataBase/Notebook.csv'
-start = Console(notelist_file)
+start = View(notelist_file)
 start.menu()

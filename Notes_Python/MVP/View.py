@@ -1,7 +1,6 @@
 from MVP.Presenter import Presenter
-from datetime import datetime
 
-class Console:
+class View:
     presenter: Presenter
 
     def __init__(self, notelist_file: str) -> None:
@@ -15,42 +14,49 @@ class Console:
                 '3 - найти заметку в записной книжке \n',
                 '4 - редактировать заметку в записной книжке \n',
                 '5 - удалить заметку из записной книжки \n',
+                '6 - выбрать все заметки за дату \n',
                 '===================================== \n',
-                '6 - закончить работу с записной книжкой')
+                '0 - закончить работу с записной книжкой')
             try:
                 choice = int(input('Введите действие с записной книжкой: '))
                 match choice:
                     case 1: # просмотр записной книжки
                         print(*self.presenter.viewNotes())
                     case 2: # добавить заметку
-                        heading, text_note, time_change = self.InsertNote()
-                        print(self.presenter.insertNote(heading, text_note, time_change))
+                        heading, text_note = self.insertNote()
+                        print(self.presenter.insertNote(heading, text_note))
                     case 3: # найти заметку
                         searchNote = input('Введите строку поиска в записной книжке: ')
                         print(*self.presenter.searchNote(searchNote))
                     case 4: # редактировать заметку
+                        modifyLine = int(input('Введите номер заметки, которую надо редактировать: '))
                         try:
-                            modifyLine = int(input('Введите ID, который надо изменить: '))
-                            print(self.presenter.modifyNote(modifyLine))
+                            newHeading, newText_note = self.modifyNote(modifyLine)
+                            print(modifyLine, newHeading, newText_note)
+                            print(self.presenter.modifyNote(modifyLine, newHeading, newText_note)) 
                         except:
-                            print("Такой записи не существует")                
+                            print("Заметка",modifyLine,"не найдена")         
                     case 5: # удалить заметку
-                        #try:
-                            deleteLine = int(input('Введите номер заметки, которую надо удалить: '))
-                            print(self.presenter.modifyNote(deleteLine, 1))
-                        #except:
-                        #    print("Такой заметки не существует")
-                    case 6: # выход
+                        removeLine = int(input('Введите номер заметки, которую надо удалить: '))
+                        print(self.presenter.removeNote(removeLine))
+                    case 6: # выбрать заметки за дату
+                        dataFilter = int(input('Введите за какую дату нужны заметки: '))
+                    case 0: # выход
                         print('\nДо свидания')
                         break
                     case _:
-                        print('ошибка ввода данных, введите число от 1 до 6')
+                        print('ошибка ввода данных, введите число от 0 до 6')
             except:
                 print('ошибка ввода типа данных, введите заново')
 
-    def InsertNote(self):
+    def insertNote(self):
         print('Введите заметку: ')
         heading = input('Заголовок: ')
         text_note = input('Текст: ')
-        time_change = datetime.now()
-        return heading , text_note, time_change
+        return heading , text_note
+    
+    def modifyNote(self, modifyLine):
+        old_note = self.presenter.filterNote(modifyLine)
+        newHeading = input('Изменить заголовок ('+old_note[0].getHeading()+'): ')
+        newText_note = input('Изменить текст заметки ('+old_note[0].getText()+'): ')
+        return newHeading, newText_note

@@ -9,22 +9,14 @@ class NotesList:
     def getNotesList(self):
         return self.notes_list
 
+    def getSize(self):
+        return len(self.notes_list)
+    
     def append_note(self, note: Note) -> None:
         self.notes_list.append(note)
 
     def remove_note(self, note: Note) -> None:
         self.notes_list.remove(note)
-
-    def select_all_note(self) -> str:
-        output: str = ""
-        for d in self.notes_list:
-            output += f'{d.heading}\n'
-        return output
-
-    '''''
-    def report(self) -> list[tuple]:
-        rep: list[tuple] = []
-        for w in self.notes_list:
-            rep.append((w.heading, w.text_note, ))
-        return rep
-    '''
+    
+    def filter_note(self, numberNote, dataNote):
+        return [x for x in self.notes_list if (x.id==numberNote and numberNote!=-1) or (dataNote!=None and x.time_change==dataNote)]
