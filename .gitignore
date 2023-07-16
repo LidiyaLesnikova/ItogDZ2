@@ -54,7 +54,6 @@ dkms.conf
 Notes_Python/MVP/__pycache__/
 Notes_Python/MVP/DataBase/__pycache__/
 *.csv
-ToyStore_Java/
 ToyStore_Java/.idea/
 ToyStore_Java/out/
 ToyStore_Java.iml
