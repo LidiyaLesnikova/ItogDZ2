@@ -1,5 +1,6 @@
 from datetime import datetime
 
+# класс заметка
 class Note:
     id: int
     heading: str

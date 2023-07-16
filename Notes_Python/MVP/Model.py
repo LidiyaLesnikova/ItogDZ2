@@ -11,18 +11,22 @@ class Model:
         self.fileHandler = FileHandler(notelist_file)
         self.createNotelist()
 
+    # прочитать список заметок
     def createNotelist(self) -> None:
         for i in self.fileHandler.read():
             str = i.replace('\n','').split(';')
             self.notelist.append_note(Note(int(str[0]), str[1], str[2], datetime.strptime(str[3],'%Y-%m-%d %H:%M:%S')))
 
+    # получить фильтрованный список заметок
     def filterNote(self, numberNote: int, dataNote: datetime):
         notelist = self.notelist.filter_note(numberNote, dataNote)
         return ["Заметок нет"] if len(notelist)==0 else notelist
 
+    # получить дату
     def getDateFilter(self, yearFilter: int, monthFilter: int, dayFilter: int):
         return datetime(yearFilter, monthFilter, dayFilter)
 
+    # добавить заметку
     def insertNote(self, heading, text_note) -> str:
         try:
             id = 1 if self.notelist.getSize()==0 else self.notelist.getNotesList()[-1].id+1
@@ -34,6 +38,7 @@ class Model:
             rez = "Ошибка, не удалось сохранить заметку"
         return rez
     
+    # найти заметку
     def searchNote(self, searchNote: str) -> str:
         rez = []
         for i in self.notelist.getNotesList():
@@ -43,6 +48,7 @@ class Model:
             rez.append('Запись не найдена')
         return rez
     
+    # редактировать заметку
     def modifyNote(self, modifyLine: int, newHeading: str, newText_note: str, time_change = datetime.now()) -> str:
         self.fileHandler.remove()
         rez = ""
@@ -57,6 +63,7 @@ class Model:
                 self.fileHandler.add_data(str(i.id)+';'+i.heading+';'+i.text_note+';'+i.time_change.strftime('%Y-%m-%d %H:%M:%S')+'\n')
         return 'Запись не найдена' if rez=="" else rez
     
+    # удалить заметку
     def removeNote(self, removeLine: int) -> str:
         self.fileHandler.remove()
         rez = ""

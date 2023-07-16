@@ -6,6 +6,7 @@ class View:
     def __init__(self, notelist_file: str) -> None:
         self.presenter = Presenter(notelist_file)
 
+    # вывод стартового меню
     def menu(self):
          while True:
             print('\n',
@@ -42,7 +43,7 @@ class View:
                     case 6: # выбрать заметки за дату
                         dataFilter = self.insertData()
                         print(*self.presenter.filterNote(-1, dataFilter))
-                    case 0: # выход00
+                    case 0: # выход
                         print('\nДо свидания')
                         break
                     case _:
@@ -50,18 +51,21 @@ class View:
             except:
                 print('ошибка ввода типа данных, введите заново')
 
+    # запрос ввода реквизитов заметки
     def insertNote(self):
         print('Введите заметку: ')
         heading = input('Заголовок: ')
         text_note = input('Текст: ')
         return heading , text_note
     
+    # запрос ввода измененных реквизитов заметки
     def modifyNote(self, modifyLine):
         old_note = self.presenter.filterNote(modifyLine)
         newHeading = input('Изменить заголовок ('+old_note[0].getHeading()+'): ')
         newText_note = input('Изменить текст заметки ('+old_note[0].getText()+'): ')
         return newHeading, newText_note
     
+    # запрос ввода даты
     def insertData(self):
         while True:
             try:
