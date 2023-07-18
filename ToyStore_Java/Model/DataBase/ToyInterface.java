@@ -2,5 +2,9 @@ package Model.DataBase;
 
 public interface ToyInterface<T>{
     int getWeight();
-    T getNewToy(int id, String name, int weight);
+    int getId();
+    int getQuantity();
+    void setQuantity(int quantity);
+    void setWeight(int weight);
+    T getNewToy(int id, String name, int quantity, int weight);
 }

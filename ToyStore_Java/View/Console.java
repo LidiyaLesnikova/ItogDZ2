@@ -1,68 +1,104 @@
 package View;
 
+import Model.DataBase.ToyInterface;
 import Presenter.Presenter;
-import java.util.List;
-import java.util.Scanner;
+import View.CommandMenu.MainMenu;
+import View.CommandMenu.MenuInterface;
+import View.Printable.PrintInterface;
+import View.Printable.PrintObjectList;
+
+import java.util.*;
 
 public class Console implements View {
     private Scanner scan;
     private Presenter presenter;
+    private MenuInterface mainMenu;
+    private PrintInterface printable;
     private boolean work;
+    public int numberRecords;
 
     public Console(String listToyFile) {
         presenter = new Presenter(listToyFile);
         scan = new Scanner(System.in);
+        mainMenu = new MainMenu(this);
+        printable = new PrintObjectList();
     }
 
     @Override
-    public void welcome() {
-        work = true;
-        List<String> objectList;
-        int typeToy, weight, index = 1;
-        while (work) {
-            System.out.println("Выберите игрушку, которую необходимо добавить из списка: ");
-            objectList = presenter.getObjectList();
-            System.out.println(toPrint(objectList));
-            typeToy = inputNumMenu(1, objectList.size()) - 1;
-            System.out.println("Введите название игрушки: ");
-            String name = scan.nextLine();
-            System.out.println("Ввведите частоту выпадения игрушки (в процентах): ");
-            weight = inputNumMenu(1, 100);
-            String listToy = presenter.addToy(typeToy, name, weight);
-            index++;
-            work = true;
-            if (index>3) {
-                System.out.println("Продолжить ввод? (0 - нет, 1 - да): ");
-                if (inputNumMenu(0, 1)==0) {
-                    work = false;
-                    System.out.println(listToy);
-                }
-                else {
-                    work = true;
-                }
-            }
+    public void menuAction() {
+        int sizeList = presenter.getListToy().size();
+        if (sizeList!=0) {
+            numberRecords = presenter.getMaxId();
         }
-    }
-
-    /*private void menuAction() {
+        if (sizeList<3) {
+            addRecord(sizeList);
+        }
         work = true;
         while (work) {
             System.out.println("\nВыберите пункт меню: ");
             System.out.println(mainMenu.printMenu());
-            int choice = inputNumMenu(1,mainMenu.size());
-                mainMenu.execute(choice);
+            int choice = inputNumMenu(1,mainMenu.size())-1;
+            mainMenu.execute(choice);
         }
-    }*/
+    }
 
-    private String toPrint(List<String> objectList) {
-        StringBuilder stringBuilder = new StringBuilder();
-        int index = 1;
-        for (String list : objectList) {
-            stringBuilder.append(index++ + ": ");
-            stringBuilder.append(list);
-            stringBuilder.append("\n");
+    public void viewRecord() {
+        System.out.println(printable.output(presenter.getListToy()));
+        work = true;
+    }
+
+    public void addRecord(int sizeList) {
+        work = true;
+        List<String> objectList;
+        int typeToy, quantity, weight;
+        while (work) {
+            numberRecords++;
+            System.out.println("Выберите игрушку, которую необходимо добавить из списка: ");
+            objectList = presenter.getListObject();
+            System.out.println(printable.output(objectList));
+            typeToy = inputNumMenu(1, objectList.size()) - 1;
+            System.out.println("Введите название игрушки: ");
+            String name = scan.nextLine();
+            System.out.println("Введите количество игрушек для розыгрыша: ");
+            quantity = inputNumMenu(1, 1000000);
+            System.out.println("Введите частоту выпадения игрушки (в процентах): ");
+            weight = inputNumMenu(1, 100);
+            System.out.println(presenter.addToy(numberRecords, typeToy, name, quantity, weight));
+            sizeList++;
+            if (sizeList>=3) {
+                work = false;
+            }
+            else {
+                work = true;
+            }
         }
-        return stringBuilder.toString();
+        work = true;
+    }
+
+    public void ModifyRecord() {
+        int pos = selectPosition("Выберите какую позицию надо исправить: ");
+        System.out.println("введите новую частоту выпадения игрушки (в процентах): ");
+        int weight = inputNumMenu(1, 100);
+        System.out.println(presenter.ModifyRecord(pos, weight));
+        work = true;
+    }
+
+    public void DeleteRecord() {
+        int delPos = selectPosition("Выберите позицию, которую надо удалить: ");
+        System.out.println("в каком количестве: ");
+        int quantity = presenter.getQuantity(delPos);
+        int delCol = inputNumMenu(0, quantity);
+        System.out.println(presenter.DeleteRecord(delPos, delCol, quantity==delCol));
+        work = true;
+    }
+
+    public void Raffle() {
+        work = true;
+    }
+
+    public void Quit() {
+        System.out.println("До свидания)");
+        work = false;
     }
 
     private int inputNumMenu(int from, int to) {
@@ -85,5 +121,11 @@ public class Console implements View {
         }
         int choice = Integer.parseInt(line);
         return choice >= from && choice <= to;
+    }
+
+    private int selectPosition(String message) {
+        List listToy = presenter.getListToy();
+        System.out.println(message+"\n"+printable.output(listToy));
+        return inputNumMenu(1,listToy.size())-1;
     }
 }
