@@ -15,6 +15,6 @@ public class ModifyRecord implements Command{
 
     @Override
     public void execute() {
-        console.ModifyRecord();
+        console.modifyRecord();
     }
 }

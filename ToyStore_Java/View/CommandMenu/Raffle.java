@@ -15,6 +15,6 @@ public class Raffle implements Command{
 
     @Override
     public void execute() {
-        console.Raffle();
+        console.raffle();
     }
 }

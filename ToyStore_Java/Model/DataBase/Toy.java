@@ -5,13 +5,11 @@ import java.io.Serializable;
 public abstract class Toy implements Serializable, ToyInterface, Comparable<ToyInterface> {
     protected int id;
     protected String name;
-    protected int quantity;
     protected int weight;
 
-    public Toy(int id, String name, int quantity, int weight) {
+    public Toy(int id, String name, int weight) {
         this.id = id;
         this.name = name;
-        this.quantity = quantity;
         this.weight = weight;
     }
 
@@ -21,18 +19,8 @@ public abstract class Toy implements Serializable, ToyInterface, Comparable<ToyI
     }
 
     @Override
-    public int getQuantity() {
-        return this.quantity;
-    }
-
-    @Override
     public int getWeight() {
         return this.weight;
-    }
-
-    @Override
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     @Override

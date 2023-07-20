@@ -1,6 +1,5 @@
 package View;
 
-import Model.DataBase.ToyInterface;
 import Presenter.Presenter;
 import View.CommandMenu.MainMenu;
 import View.CommandMenu.MenuInterface;
@@ -17,8 +16,8 @@ public class Console implements View {
     private boolean work;
     public int numberRecords;
 
-    public Console(String listToyFile) {
-        presenter = new Presenter(listToyFile);
+    public Console(String listToyFile, String fileResult) {
+        presenter = new Presenter(listToyFile, fileResult);
         scan = new Scanner(System.in);
         mainMenu = new MainMenu(this);
         printable = new PrintObjectList();
@@ -75,28 +74,37 @@ public class Console implements View {
         work = true;
     }
 
-    public void ModifyRecord() {
+    public void modifyRecord() {
         int pos = selectPosition("Выберите какую позицию надо исправить: ");
         System.out.println("введите новую частоту выпадения игрушки (в процентах): ");
         int weight = inputNumMenu(1, 100);
-        System.out.println(presenter.ModifyRecord(pos, weight));
+        System.out.println(presenter.modifyRecord(pos, weight));
         work = true;
     }
 
-    public void DeleteRecord() {
+    public void deleteRecord() {
         int delPos = selectPosition("Выберите позицию, которую надо удалить: ");
         System.out.println("в каком количестве: ");
         int quantity = presenter.getQuantity(delPos);
         int delCol = inputNumMenu(0, quantity);
-        System.out.println(presenter.DeleteRecord(delPos, delCol, quantity==delCol));
+        System.out.println(presenter.deleteRecord(delPos, delCol, quantity==delCol));
         work = true;
     }
 
-    public void Raffle() {
+    public void raffle() {
+        System.out.println("Введите количество разыгрываемых игрушек: ");
+        if (presenter.getSumQuantity()>0) {
+            int numberDraws = inputNumMenu(1, presenter.getSumQuantity());
+            for (int i = 1; i <= numberDraws; i++) {
+                System.out.println(presenter.raffle(i));
+            }
+        } else {
+            System.out.println("Набор игрушек для розыгрыша пуст");
+        }
         work = true;
     }
 
-    public void Quit() {
+    public void quit() {
         System.out.println("До свидания)");
         work = false;
     }

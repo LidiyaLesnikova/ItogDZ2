@@ -15,6 +15,6 @@ public class Quit implements Command{
 
     @Override
     public void execute() {
-        console.Quit();
+        console.quit();
     }
 }

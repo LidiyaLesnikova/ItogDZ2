@@ -1,52 +1,51 @@
 package Model.DataBase;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-import java.util.PriorityQueue;
 
-public class ToyStore <T extends ToyInterface> implements Serializable, Iterable<ToyInterface> {
-    static final long serialVersionUID = 1L;
-    private List<ToyInterface> object;
-    private List<ToyInterface> listToy;
+public class ToyStore <T extends ToyInterface> implements Serializable, ToyInterface {
+    private ToyInterface toy;
+    private int quantity;
 
-    public ToyStore() {
-        listToy = new ArrayList<>();
-        object = new ArrayList<>();
-        object.add(new Doll());
-        object.add(new Robot());
-        object.add(new Designer());
+    public ToyStore(ToyInterface toy, int quantity) {
+        this.toy = toy;
+        this.quantity = quantity;
     }
 
-    public List<String> getListObject() {
-        return object.stream().map(o -> o.getClass().getSimpleName()).toList();
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public List<ToyInterface> getListToy() {
-        return listToy;
+    public int getQuantity() {
+        return this.quantity;
     }
 
-    public void addToy(int id, int typeToy, String name, int quantity, int weight) {
-        ToyInterface toy = object.get(typeToy);
-        listToy.add((ToyInterface) toy.getNewToy(id, name, quantity, weight));
-    }
-
-    public void ModifyQuantity(int pos, int delCol) {
-        listToy.get(pos).setQuantity(listToy.get(pos).getQuantity()-delCol);
-    }
-
-    public void ModifyWeight(int pos, int weight) {
-        listToy.get(pos).setWeight(weight);
-    }
-
-    public void DeleteRecord(int pos) {
-        listToy.remove(pos);
+    public ToyInterface getToy() {
+        return this.toy;
     }
 
     @Override
-    public Iterator<ToyInterface> iterator() {
-        return listToy.iterator();
+    public int getWeight() {
+        return 0;
     }
 
+    @Override
+    public int getId() {
+        return toy.getId();
+    }
+
+    @Override
+    public void setWeight(int weight) {
+        toy.setWeight(weight);
+    }
+
+    @Override
+    public ToyInterface getNewToy(int id, String name, int weight) {
+        return (ToyInterface) toy.getNewToy(id, name, weight);
+    }
+
+    @Override
+    public String toString() {
+        return toy +", " + quantity +"шт.";
+    }
 }

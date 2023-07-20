@@ -15,6 +15,6 @@ public class DeleteRecord implements Command{
 
     @Override
     public void execute() {
-        console.DeleteRecord();
+        console.deleteRecord();
     }
 }

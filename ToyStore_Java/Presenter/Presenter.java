@@ -6,8 +6,8 @@ import java.util.List;
 public class Presenter {
     private Model model;
 
-    public Presenter(String listToyFile){
-        model = new Model(listToyFile);
+    public Presenter(String listToyFile, String fileResult){
+        model = new Model(listToyFile, fileResult);
     }
 
     public List<String> getListObject() {
@@ -26,15 +26,24 @@ public class Presenter {
         return model.getMaxId();
     }
 
+    public int getSumQuantity() {
+        return model.getSumQuantity();
+    }
+
     public int getQuantity(int delPos) {
         return model.getQuantity(delPos);
     }
 
-    public String DeleteRecord(int delPos, int delCol, boolean sign) {
-        return model.DeleteRecord(delPos, delCol, sign);
+    public String deleteRecord(int delPos, int delCol, boolean sign) {
+        return model.deleteRecord(delPos, delCol, sign);
     }
 
-    public String ModifyRecord(int pos, int weight) {
-        return model.ModifyRecord(pos, weight);
+    public String modifyRecord(int pos, int weight) {
+        return model.modifyRecord(pos, weight);
     }
+
+    public String raffle(int num) {
+        return model.raffle(num);
+    }
+
 }
