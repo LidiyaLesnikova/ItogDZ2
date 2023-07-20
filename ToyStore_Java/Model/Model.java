@@ -115,5 +115,4 @@ public class Model {
         fileHandler.saveResult(toy, num);
     }
 
-
 }

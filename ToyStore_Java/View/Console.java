@@ -5,7 +5,6 @@ import View.CommandMenu.MainMenu;
 import View.CommandMenu.MenuInterface;
 import View.Printable.PrintInterface;
 import View.Printable.PrintObjectList;
-
 import java.util.*;
 
 public class Console implements View {
@@ -75,26 +74,35 @@ public class Console implements View {
     }
 
     public void modifyRecord() {
-        int pos = selectPosition("Выберите какую позицию надо исправить: ");
-        System.out.println("введите новую частоту выпадения игрушки (в процентах): ");
-        int weight = inputNumMenu(1, 100);
-        System.out.println(presenter.modifyRecord(pos, weight));
+        if (presenter.getSumQuantity()>0) {
+            int pos = selectPosition("Выберите какую позицию надо исправить: ");
+            System.out.println("введите новую частоту выпадения игрушки (в процентах): ");
+            int weight = inputNumMenu(1, 100);
+            System.out.println(presenter.modifyRecord(pos, weight));
+        } else {
+            System.out.println("Набор игрушек для розыгрыша пуст");
+        }
         work = true;
     }
 
     public void deleteRecord() {
-        int delPos = selectPosition("Выберите позицию, которую надо удалить: ");
-        System.out.println("в каком количестве: ");
-        int quantity = presenter.getQuantity(delPos);
-        int delCol = inputNumMenu(0, quantity);
-        System.out.println(presenter.deleteRecord(delPos, delCol, quantity==delCol));
+        if (presenter.getSumQuantity()>0) {
+            int delPos = selectPosition("Выберите позицию, которую надо удалить: ");
+            System.out.println("в каком количестве: ");
+            int quantity = presenter.getQuantity(delPos);
+            int delCol = inputNumMenu(0, quantity);
+            System.out.println(presenter.deleteRecord(delPos, delCol, quantity==delCol));
+        } else {
+            System.out.println("Набор игрушек для розыгрыша пуст");
+        }
         work = true;
     }
 
     public void raffle() {
-        System.out.println("Введите количество разыгрываемых игрушек: ");
-        if (presenter.getSumQuantity()>0) {
-            int numberDraws = inputNumMenu(1, presenter.getSumQuantity());
+        int sumQuantity = presenter.getSumQuantity();
+        if (sumQuantity>0) {
+            System.out.println("Введите количество разыгрываемых игрушек (из "+sumQuantity+"): ");
+            int numberDraws = inputNumMenu(1, sumQuantity);
             for (int i = 1; i <= numberDraws; i++) {
                 System.out.println(presenter.raffle(i));
             }
