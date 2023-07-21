@@ -1,7 +1,6 @@
 package Model.DataBase;
 
 import java.io.Serializable;
-import java.util.Iterator;
 
 public class Designer extends Toy implements Serializable, ToyInterface {
     public Designer(int id, String name, int weight) {

@@ -19,18 +19,35 @@ public class Model {
         fileRead(listToyFile);
     }
 
+    /**
+     * получить список игрушек для розыгрыша
+     * @return список игрушек для розыгрыша
+     */
     public List<ToyStore> getListToy() {
         return toyList.getToyList();
     }
 
+    /**
+     * получить максимальный идентификатор в списке игрушек
+     * @return максимальный номер - идентификатор
+     */
     public int getMaxId() {
         return toyList.getMaxId();
     }
 
+    /**
+     * получить количество указанной игрушки
+     * @param pos - розиция игрушки, для которой надо узнать количество
+     * @return - количество указанной игрушки
+     */
     public int getQuantity(int pos) {
         return toyList.getQuantity(pos);
     }
 
+    /**
+     * получить количество всех игрушек для розыгрыша в списке
+     * @return - общее количество игрушек для розыгрыша
+     */
     public int getSumQuantity() {
         return toyList.getToyList().stream().mapToInt(x -> x.getQuantity()).sum();
     }
@@ -56,6 +73,13 @@ public class Model {
         return "позиция создана";
     }
 
+    /**
+     * Удалить указанное количество игрушек из списка
+     * @param pos позиция игрушки, которую надо удалить
+     * @param delCol - количество удаляемых игрушек
+     * @param sign - признак да-удалить из списка позицию, нет-уменьшить в позиции указанное количество
+     * @return - сообщение пользователю об успешно выполненной операции
+     */
     public String deleteRecord(int pos, int delCol, boolean sign) {
         if (sign) {
             toyList.deleteRecord(pos);
@@ -66,12 +90,30 @@ public class Model {
         return "позиция удалена";
     }
 
+    /**
+     * Изменить частоту выпадения игрушки
+     * @param pos - позиция игрушки, которой надо изменить частоту
+     * @param weight - новая частота выпадения
+     * @return - сообщение пользователю об успешно выполненной операции
+     */
     public String modifyRecord(int pos, int weight) {
         toyList.modifyWeight(pos, weight);
         fileSave();
         return "позиция изменена";
     }
 
+    /**
+     * внести в файл с результатами розыгрышей отбивку одного розыгрыша
+     */
+    public void headRaffle() {
+        fileHandler.saveResultHead();
+    }
+
+    /**
+     * розыгрыш игрушек
+     * @param num - порядковый номер приза
+     * @return - случайно выпавшая игрушка-приз записывается в файл
+     */
     public String raffle(int num) {
         String resultView = "розыгрыш "+num+" не состоялся";
         PriorityQueue<ToyInterface> raffleList = new PriorityQueue<>();
@@ -98,6 +140,10 @@ public class Model {
         return resultView;
     }
 
+    /**
+     * прочитать список игрушек для розыгрыша из файла
+     * @param listToyFile - имя файла со списком
+     */
     private void fileRead(String listToyFile) {
         File file = new File(listToyFile);
         if (file.exists()) {
@@ -105,12 +151,20 @@ public class Model {
         }
     }
 
+    /**
+     * записать список игрушек для розыгрыша в файл
+     */
     private void fileSave(){
         if (!getListObject().isEmpty()) {
             fileHandler.save(toyList);
         }
     }
 
+    /**
+     * записать результат розыгрыша в файл
+     * @param toy - игрушка приз
+     * @param num - номер приза
+     */
     private void saveResult(ToyInterface toy, int num) {
         fileHandler.saveResult(toy, num);
     }

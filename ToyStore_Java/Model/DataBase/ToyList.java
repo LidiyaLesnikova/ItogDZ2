@@ -8,8 +8,8 @@ import java.util.List;
 
 public class ToyList<T extends ToyStore> implements Serializable, Iterable<ToyStore> {
     static final long serialVersionUID = 1L;
-    private List<ToyInterface> object;
-    private List<ToyStore> toyList;
+    private List<ToyInterface> object; //перечень (список) классов - возможных игрушек для розыгрыша
+    private List<ToyStore> toyList; //список игрушек для розыгрыша
 
     public ToyList() {
         toyList = new ArrayList<>();
@@ -17,6 +17,7 @@ public class ToyList<T extends ToyStore> implements Serializable, Iterable<ToySt
         object.add(new Doll());
         object.add(new Robot());
         object.add(new Designer());
+        object.add(new Car());
     }
 
     public List<String> getListObject() {

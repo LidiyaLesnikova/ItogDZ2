@@ -22,6 +22,9 @@ public class Console implements View {
         printable = new PrintObjectList();
     }
 
+    /**
+     * вывод основного меню работы с пользователем
+     */
     @Override
     public void menuAction() {
         int sizeList = presenter.getListToy().size();
@@ -40,11 +43,18 @@ public class Console implements View {
         }
     }
 
+    /**
+     * Показать весь список игрушек
+     */
     public void viewRecord() {
         System.out.println(printable.output(presenter.getListToy()));
         work = true;
     }
 
+    /**
+     * Добавить в список новую игрушку
+     * @param sizeList - текущее количество записей в списке игрушек
+     */
     public void addRecord(int sizeList) {
         work = true;
         List<String> objectList;
@@ -73,6 +83,9 @@ public class Console implements View {
         work = true;
     }
 
+    /**
+     * Изменить частоту выпадения игрушки
+     */
     public void modifyRecord() {
         if (presenter.getSumQuantity()>0) {
             int pos = selectPosition("Выберите какую позицию надо исправить: ");
@@ -85,6 +98,9 @@ public class Console implements View {
         work = true;
     }
 
+    /**
+     * Удалить указанное количество игрушек из списка
+     */
     public void deleteRecord() {
         if (presenter.getSumQuantity()>0) {
             int delPos = selectPosition("Выберите позицию, которую надо удалить: ");
@@ -98,11 +114,15 @@ public class Console implements View {
         work = true;
     }
 
+    /**
+     * розыгрыш игрушек
+     */
     public void raffle() {
         int sumQuantity = presenter.getSumQuantity();
         if (sumQuantity>0) {
             System.out.println("Введите количество разыгрываемых игрушек (из "+sumQuantity+"): ");
             int numberDraws = inputNumMenu(1, sumQuantity);
+            presenter.headRaffle();
             for (int i = 1; i <= numberDraws; i++) {
                 System.out.println(presenter.raffle(i));
             }
@@ -112,11 +132,20 @@ public class Console implements View {
         work = true;
     }
 
+    /**
+     * Конец работы - прерывание работы программы
+     */
     public void quit() {
         System.out.println("До свидания)");
         work = false;
     }
 
+    /**
+     * ввод номера из преддагаемого списка
+     * @param from - начало отсчета
+     * @param to - конец отсчета
+     * @return - введенный пользователем номер, соответствующий пределам
+     */
     private int inputNumMenu(int from, int to) {
         work = true;
         String line = "";
@@ -131,6 +160,13 @@ public class Console implements View {
         return Integer.parseInt(line);
     }
 
+    /**
+     * проверка введенного номера на соответствие пределов
+     * @param line введенная пользователем строка
+     * @param from - начало предела
+     * @param to - конец предела
+     * @return - соответсвует/не соответствует
+     */
     private boolean checkLine(String line, int from, int to) {
         if (!line.matches("[0-9]+")){
             return false;
@@ -139,6 +175,11 @@ public class Console implements View {
         return choice >= from && choice <= to;
     }
 
+    /**
+     * выбор позиции из списка
+     * @param message - сообщение пользователю
+     * @return - номер позиции в списке
+     */
     private int selectPosition(String message) {
         List listToy = presenter.getListToy();
         System.out.println(message+"\n"+printable.output(listToy));

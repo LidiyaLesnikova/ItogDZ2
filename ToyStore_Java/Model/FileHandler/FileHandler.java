@@ -5,7 +5,6 @@ import Model.DataBase.ToyList;
 import Model.DataBase.ToyStore;
 import java.io.*;
 import java.time.format.FormatStyle;
-
 import static java.time.format.DateTimeFormatter.ofLocalizedDateTime;
 
 public class FileHandler implements FileProcessing {
@@ -16,15 +15,12 @@ public class FileHandler implements FileProcessing {
     public FileHandler(String listToyFile, String fileResult) {
         this.path = listToyFile;
         this.fileResult = fileResult;
-        try {
-            fw = new FileWriter(fileResult, true);
-            fw.write("\nРозыгрыш за "+java.time.LocalDateTime.now().format(ofLocalizedDateTime(FormatStyle.SHORT))+": \n");
-            fw.close();
-        } catch (IOException ex) {
-            System.out.println("Ошибка создания файла с результами розыгрыша");
-        }
     }
 
+    /***
+     * записать передаваемый список игрушек в файл
+     * @param object - список игрушек
+     */
     @Override
     public void save(Serializable object) {
         try{
@@ -36,6 +32,10 @@ public class FileHandler implements FileProcessing {
         }
     }
 
+    /***
+     * читать список игрушек из файла
+     * @return
+     */
     @Override
     public ToyList<ToyStore> read() {
         try {
@@ -49,6 +49,11 @@ public class FileHandler implements FileProcessing {
         }
     }
 
+    /***
+     * записать в файл результат розыгрыша
+     * @param toy - выпавшая в розыгрыше игрушка
+     * @param num - порядковый номер приза
+     */
     @Override
     public void saveResult(ToyInterface toy, int num) {
         try {
@@ -59,6 +64,19 @@ public class FileHandler implements FileProcessing {
             fw.close();
         } catch (IOException ex) {
             System.out.println("Ошибка записи результата розыгрыша в файл");
+        }
+    }
+
+    /***
+     * отбивка каждого розыгрыша для файла с результатами розыгрышей
+     */
+    public void saveResultHead() {
+        try {
+            fw = new FileWriter(fileResult, true);
+            fw.write("\nРозыгрыш за " + java.time.LocalDateTime.now().format(ofLocalizedDateTime(FormatStyle.SHORT)) + ": \n");
+            fw.close();
+        } catch (IOException ex) {
+            System.out.println("Ошибка создания файла с результами розыгрыша");
         }
     }
 }

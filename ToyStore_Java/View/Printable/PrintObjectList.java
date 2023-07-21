@@ -8,6 +8,11 @@ public class PrintObjectList implements PrintInterface {
         return toPrint(object);
     }
 
+    /***
+     * вывод списка на печать
+     * @param objectList - список
+     * @return - печатная строка со списком
+     */
     private String toPrint(List objectList) {
         StringBuilder stringBuilder = new StringBuilder();
         int index = 1;

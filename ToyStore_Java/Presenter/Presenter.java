@@ -46,4 +46,7 @@ public class Presenter {
         return model.raffle(num);
     }
 
+    public void headRaffle() {
+        model.headRaffle();
+    }
 }

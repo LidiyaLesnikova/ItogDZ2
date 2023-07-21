@@ -1,7 +1,6 @@
 package Model.DataBase;
 
 import java.io.Serializable;
-import java.util.Iterator;
 
 public class ToyStore <T extends ToyInterface> implements Serializable, ToyInterface {
     private ToyInterface toy;
